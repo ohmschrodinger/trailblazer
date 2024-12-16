@@ -18,7 +18,7 @@ func factorial(n int) int {
 }
 
 // Deliberate syntax error (missing closing parenthesis)
-func greet(name string string {
+func greet(name string) {
 	fmt.Printf("Hello, %s!\n", name)
 }
 
@@ -27,16 +27,20 @@ func main() {
 	var unusedVar int
 
 	// Logical error: passing a string to factorial
-	result := factorial("5")
+	result := factorial(5)
 	fmt.Println("Factorial of 5 is:", result)
 
 	// Calling a function with the wrong number of arguments
-	sum := addNumbers(3)
+	sum := addNumbers(3, 4) // Fixed function call to pass two arguments
 	fmt.Println("Sum is:", sum)
 
-	// Attempting to access an out-of-range index in a slice
+	// Correcting the out-of-range index access
 	slice := []int{1, 2, 3}
-	fmt.Println("Fourth element:", slice[3])
+	if len(slice) > 3 {
+		fmt.Println("Fourth element:", slice[3])
+	} else {
+		fmt.Println("Index out of range. The slice only has", len(slice), "elements.")
+	}
 
 	// Infinite loop (logical error)
 	for {
@@ -46,14 +50,16 @@ func main() {
 
 // Function definition mismatch (expects two arguments but the body has three)
 func addNumbers(a int, b int) int {
-	return a + b + c
+	return a + b // Fixed function body to return a + b
 }
 
 // Function missing a return statement
 func divide(a int, b int) int {
 	if b == 0 {
 		fmt.Println("Error: Division by zero")
+		return 0 // Fixed by returning a value
 	}
+	return a / b
 }
 
 // Deliberate naming conflict
@@ -68,12 +74,18 @@ func conflictFunction() {
 // Incorrect type assertion
 func typeAssertionExample() {
 	var i interface{} = "hello"
-	fmt.Println(i.(int))
+	// Fixed type assertion to avoid panic
+	if str, ok := i.(string); ok {
+		fmt.Println(str)
+	} else {
+		fmt.Println("Type assertion failed")
+	}
 }
 
 // Deliberate misspelling of "fmt"
 func typoExample() {
-	fmtx.Println("This won't work")
+	// Fixed the typo
+	fmt.Println("This works now")
 }
 
 // Struct with missing fields in initialization
@@ -83,15 +95,18 @@ func structExample() {
 		Age  int
 	}
 
+	// Fixed the struct initialization to include both fields
 	p := Person{
 		Name: "John",
+		Age:  30,
 	}
 	fmt.Println(p)
 }
 
 // Map without proper initialization
 func mapExample() {
-	var m map[string]int
+	// Fixed map initialization
+	m := make(map[string]int)
 	m["key"] = 42
 	fmt.Println(m)
 }
@@ -104,3 +119,4 @@ const Greeting = "Hello"
 func unusedFunction() {
 	fmt.Println("This function is never called")
 }
+
